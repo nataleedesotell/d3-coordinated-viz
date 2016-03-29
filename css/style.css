@@ -1,0 +1,8 @@
+.counties {
+    stroke: #000000;
+    stroke-width: .5px;
+}
+
+.map {
+    border: medium solid #315809;
+}
