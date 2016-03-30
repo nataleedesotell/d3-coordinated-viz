@@ -4,7 +4,7 @@ window.onload = setMap();
 //set up choropleth map
 function setMap(){
   //map frame dimensions
-  var width = 1000,
+  var width = 900,
     height = 900;
 
   //create new svg container for the map
@@ -17,30 +17,33 @@ function setMap(){
     //create Albers equal area conic projection
   var projection = d3.geo.albers()
   //set a center (thought this should be 44, -89?)
-  .center([6.1, 45.8])
+  .center([-0.00, 44.437778])
   //not sure what rotate does exactly
-  //.rotate([+38, 0])
+  .rotate([90.130186, 0, 0])
   //parallels -- not sure if these are right
-  .parallels([44, 46])
+  .parallels([42, 46])
   //scale -- sizes the map
-  .scale(10000)
-  // .translate([width / 480, height / 250]);
+  .scale(9000)
+  .translate([width / 2, height / 2]);
 
   //create a path generator
   var path = d3.geo.path()
+  //pass it our projection generator as the parameter
     .projection(projection);
 
   //use queue.js to parallelize asynchronous data loading
   d3_queue.queue()
     .defer(d3.csv, "data/County_Classifications.csv") //load attributes from csv
     .defer(d3.json, "data/WI_Counties.topojson") //load choropleth spatial data
+    //firess when all the data is loaded, sends all data to the callback function
     .await(callback);
-
+ 
+//set up callback function with 3 parameters within setMap() so it can use variables above
   function callback(error, csvData, wi){
-    //translate wisconsin TopoJSON
+    //translate WI TopoJSON using the topojson.feature() method
     var wiCounties = topojson.feature(wi, wi.objects.WI_Counties).features;
-    console.log(wiCounties)
-    //add Wisconsin counties to map
+    //console.log(wiCounties)
+    //add WI counties to map, create enumeration units
     var counties = map.selectAll(".counties")
         .data(wiCounties)
         .enter()
