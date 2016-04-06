@@ -1,49 +1,30 @@
 .map {
     border: none;
-    margin: 10px 0 0 20px;
-}
-
-.chart {
-    border: none;
-    margin: 10px 20px 0 0;
+    margin: 20px 0 0 20px;
 }
 
 .counties {
-    stroke: #000;
-    stroke-width: 0.5px;
+    stroke: #fff;
+    stroke-width: 0.25px;
     stroke-linecap: round;
-}
-
-.chart {
-    float: right;
-    margin: 7px 20px 0 0;
 }
 
 .chartTitle {
     font-family: sans-serif;
-    font-size: 1em;
+    font-size: 2em;
     font-weight: bold;
-    fill: black;
+    fill: #CCC;
 }
-
-
-/*.chartFrame {
-    fill: none;
-    stroke: #999;
-    stroke-width: 3px;
-    shape-rendering: crispEdges;
-}*/
 
 .axis path,
 .axis line {
     fill: none;
-    stroke: black;
+    stroke: #CCC;
     stroke-width: 1px;
-    shape-rendering: crispEdges;
 }
 
 .axis text {
     font-family: sans-serif;
     font-size: 0.8em;
-    fill: #999;
+    fill: #CCC;
 }
