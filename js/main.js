@@ -4,13 +4,25 @@
 //my list of attributes (rurality classifications by county)
 var attrArray = ["RUCC2013", "URCSC2013", "UIC2013", "IRR2010", "IRR2010Category", "NCFC2010", "CBSA2013"];
 var expressed = attrArray[0]; //initial attribute
+var chartWidth = window.innerWidth * 0.37,
+        chartHeight = 500,
+        leftPadding = 0,
+        rightPadding = 0,
+        topBottomPadding = 0,
+        chartInnerWidth = chartWidth - leftPadding - rightPadding
+        chartInnerHeight = chartHeight - topBottomPadding * 2,
+        translate = "translate(" +leftPadding + "," + topBottomPadding + ")";
+
+    var yScale = d3.scale.linear()
+        .range([0, chartHeight])
+        .domain([0, 40]);
 //begin script when window loads
 window.onload = setMap();
 //set up choropleth 
 function setMap() {
     //map frame dimensions
-    var width = window.innerWidth * 0.9,
-        height = 900;
+    var width = window.innerWidth * 0.37,
+        height = 800;
   //create svg container for the map
   var map = d3.select("body")
     .append("svg")
@@ -20,11 +32,11 @@ function setMap() {
   //create Albers equal area conic projection
   var projection = d3.geo.albers()
   //set a center/rotation to focus on WI
-  .center([-0.00, 44.437778])
+  .center([0.00, 44.437778])
   .rotate([90.130186, 0, 0])
   .parallels([42, 46])
   //scale -- sizes the map
-  .scale(8500)
+  .scale(7000)
   .translate([width / 2, height / 2]);
   //create a path generator
   var path = d3.geo.path()
@@ -36,6 +48,19 @@ function setMap() {
     .defer(d3.json, "data/WI_Counties.topojson") //load choropleth spatial data
     //fires when all the data is loaded, sends all data to the callback function
     .await(callback);
+
+//set up callback function with 3 parameters within setMap() so it can use variables above
+  function callback(error, csvData, wi){
+    //translate WI TopoJSON using the topojson.feature() method
+    var wiCounties = topojson.feature(wi, wi.objects.WI_Counties).features;
+    wiCounties = joinData(wiCounties, csvData);
+    //add color scale
+    var colorScale = makeColorScale(csvData);
+    //add enumeration units to the map
+    setEnumerationUnits(wiCounties, map, path, colorScale);
+    setChart(csvData, colorScale);
+    createDropdown(csvData);
+    changeAttribute(attribute, csvData);
 
 function createDropdown(csvData){
     //appends select element to the body
@@ -49,7 +74,7 @@ function createDropdown(csvData){
     var titleOption = dropdown.append("option")
         .attr("class", "titleOption")
         .attr("disabled", "true")
-        .text("Select Attribute");
+        .text("Select Classification System");
 
     //add attribute name options
     var attrOptions = dropdown.selectAll("attrOptions")
@@ -65,28 +90,28 @@ function createDropdown(csvData){
 function changeAttribute(attribute, csvData){
     //change the expressed attribute
     expressed = attribute;
-
     //recreate the color scale
     var colorScale = makeColorScale(csvData);
-
     //recolor enumeration units
     var counties = d3.selectAll(".counties")
         .style("fill", function(d){
             return choropleth(d.properties, colorScale)
         });
+    //re-sort, resize, and recolor bars
+    var bars = d3.selectAll(".bar")
+        //re-sort bars
+        .sort(function(a, b){
+            return b[expressed] - a[expressed];
+        })
+        .transition() //add animation
+        .delay(function(d, i){
+            return i * 20
+        })
+        .duration(500);
+
+    updateChart(bars, csvData.length, colorScale);
 };
-//set up callback function with 3 parameters within setMap() so it can use variables above
-  function callback(error, csvData, wi){
-    //translate WI TopoJSON using the topojson.feature() method
-    var wiCounties = topojson.feature(wi, wi.objects.WI_Counties).features;
-    wiCounties = joinData(wiCounties, csvData);
-    //add color scale
-    var colorScale = makeColorScale(csvData);
-    //add enumeration units to the map
-    setEnumerationUnits(wiCounties, map, path, colorScale);
-    //add coordinated viz to the map
-    setChart(csvData, colorScale);
-    createDropdown(csvData);
+
     };
 };//end setMap()
 
@@ -124,6 +149,7 @@ function setEnumerationUnits(wiCounties, map, path, colorScale){
         .style("fill", function(d){
             return choropleth(d.properties, colorScale);
         });
+        console.log("setEnumerationUnits"); //success
 };
 
 //create a colorbrewer scale for the
@@ -135,9 +161,12 @@ function makeColorScale(data){
         "#2ca25f",
         "#006d2c"
     ];
+
+    console.log("makecolorscale"); //success
     //create color scale generator
     var colorScale = d3.scale.quantile()
         .range(colorClasses);
+
     //build two-value array of minimum and maximum expressed attribute values
     var minmax = [
         d3.min(data, function(d) { return parseFloat(d[expressed]); }),
@@ -145,7 +174,9 @@ function makeColorScale(data){
     ];
     //assign two-value array as scale domain
     colorScale.domain(minmax);
+
     return colorScale;
+    console.log("colorscale") //fail
 };
 
 
@@ -156,30 +187,19 @@ function choropleth(props, colorScale){
     //if attribute value exists, assign a color; otherwise assign gray
     if (val && val != NaN){
         return colorScale(val);
+        console.log("choro1")
     } else {
         return "#CCC";
-  };
+          };
+          console.log("choro2"); //fail
 };
 
 
 //function to create coordinated bar chart
 function setChart(csvData, colorScale){
-    // sets min and max of the data (depending on what attribute is expressed)
-    var minmax = [
-        d3.min(csvData, function(d) {
-            return parseFloat(d[expressed]); }),
-        d3.max(csvData, function(d) {
-            return parseFloat(d[expressed]); })
-    ];
+
     //chart frame dimensions with padding (0 now but will adjust later)
-    var chartWidth = window.innerWidth * 0.9,
-        chartHeight = 500,
-        leftPadding = 0,
-        rightPadding = 0,
-        topBottomPadding = 0,
-        chartInnerWidth = chartWidth - leftPadding - rightPadding
-        chartInnerHeight = chartHeight - topBottomPadding * 2,
-        translate = "translate(" +leftPadding + "," + topBottomPadding + ")";
+    
 //creates an svg element for the bar chart
     var chart = d3.select("body")
         .append("svg")
@@ -189,8 +209,8 @@ function setChart(csvData, colorScale){
 
     //scale the bar sizes proportionally 
     var yScale = d3.scale.linear()
-        .range([chartHeight - 30, 0])
-        .domain(minmax);
+        .range([chartHeight - 100, 0])
+        .domain([0, 105]);
 
     //set bars for each county
     var bars = chart.selectAll(".bars")
@@ -215,6 +235,7 @@ function setChart(csvData, colorScale){
         })
         .style("fill", function(d){
             return choropleth(d, colorScale);
+            console.log("bars"); //fail
         });
 
        //create a title for my chart
@@ -234,6 +255,7 @@ function setChart(csvData, colorScale){
         .attr("class", "axis")
         .attr("transform", translate)
         .call(yAxis);
+        console.log("axis");
 
     //keeping this code in case I decide to use numbers instead
     // var numbers = chart.selectAll(".numbers")
@@ -258,11 +280,12 @@ function setChart(csvData, colorScale){
     //         return d[expressed];
     //     });
     // //frame for chart 
-    // var chartFrame = chart.append("rect")
-    //     .attr("class", "chartFrame")
-    //     .attr("width", chartInnerWidth)
-    //     .attr("height", chartInnerHeight)
-    //     .attr("transform", translate);
+    var chartFrame = chart.append("rect")
+        .attr("class", "chartFrame")
+        .attr("width", chartInnerWidth)
+        .attr("height", chartInnerHeight)
+        .attr("transform", translate);
+        console.log("chartFrame");
 
 };
 
