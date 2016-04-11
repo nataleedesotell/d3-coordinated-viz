@@ -37,6 +37,28 @@ function setMap() {
     //fires when all the data is loaded, sends all data to the callback function
     .await(callback);
 
+function createDropdown(){
+    //appends select element to the body
+    var dropdown = d3.select("body")
+        .append("select")
+        .attr("class", "dropdown");
+
+    //creates an <option> element with no value, affordance alerting users to interact with the dropdown
+    var titleOption = dropdown.append("option")
+        .attr("class", "titleOption")
+        .attr("disabled", "true")
+        .text("Select Attribute");
+
+    //add attribute name options
+    var attrOptions = dropdown.selectAll("attrOptions")
+        .data(attrArray)
+        .enter()
+        .append("option")
+        .attr("value", function(d){ return d })
+        .text(function(d){ return d });
+
+        
+};
 //set up callback function with 3 parameters within setMap() so it can use variables above
   function callback(error, csvData, wi){
     //translate WI TopoJSON using the topojson.feature() method
@@ -48,6 +70,7 @@ function setMap() {
     setEnumerationUnits(wiCounties, map, path, colorScale);
     //add coordinated viz to the map
     setChart(csvData, colorScale);
+    createDropdown();
     };
 };//end setMap()
 
