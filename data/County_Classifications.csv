@@ -1,73 +1,73 @@
 County,RUCC2013,URCSC2013,UIC2013,IRR2010,IRR2010Category,NCFC2010,CBSA2013
-Adams,8,6,6,0.581,6,Not Frontier,Not CBSA
-Ashland,7,6,11,0.549,6,Frontier,Not CBSA
-Barron,6,6,6,0.474,5,Not Frontier,Not CBSA
-Bayfield,8,6,6,0.656,7,Frontier,Not CBSA
-Brown,2,3,2,0.209,3,Not Frontier,Metropolitan Statistical Area
-Buffalo,8,6,6,0.579,6,Not Frontier,Not CBSA
-Burnett,8,6,4,0.627,7,Frontier,Not CBSA
-Calumet,3,4,2,0.318,4,Not Frontier,Metropolitan Statistical Area
-Chippewa,3,4,2,0.382,4,Not Frontier,Metropolitan Statistical Area
-Clark,6,6,6,0.529,6,Not Frontier,Not CBSA
-Columbia,2,3,2,0.422,5,Not Frontier,Metropolitan Statistical Area
-Crawford,7,6,9,0.491,5,Not Frontier,Not CBSA
-Dane,2,3,2,0.192,2,Not Frontier,Metropolitan Statistical Area
-Dodge,4,5,3,0.373,4,Not Frontier,Micropolitan Statistical Area
-Door,6,6,6,0.481,5,Not Frontier,Not CBSA
-Douglas,2,3,2,0.449,5,Not Frontier,Metropolitan Statistical Area
-Dunn,6,5,3,0.434,5,Not Frontier,Micropolitan Statistical Area
-Eau Claire,3,4,2,0.271,3,Not Frontier,Metropolitan Statistical Area
-Florence,9,5,8,0.680,7,Frontier,Micropolitan Statistical Area
-Fond du Lac,3,4,2,0.302,4,Not Frontier,Metropolitan Statistical Area
-Forest,9,6,12,0.642,7,Frontier,Not CBSA
-Grant,6,5,5,0.444,5,Not Frontier,Micropolitan Statistical Area
-Green,2,3,2,0.428,5,Not Frontier,Metropolitan Statistical Area
-Green Lake,6,6,6,0.482,5,Not Frontier,Not CBSA
-Iowa,2,3,2,0.510,6,Not Frontier,Metropolitan Statistical Area
-Iron,9,6,12,0.606,7,Frontier,Not CBSA
-Jackson,6,6,6,0.500,6,Not Frontier,Not CBSA
-Jefferson,4,5,3,0.333,4,Not Frontier,Micropolitan Statistical Area
-Juneau,7,6,9,0.527,6,Not Frontier,Not CBSA
-Kenosha,1,2,1,0.216,3,Not Frontier,Metropolitan Statistical Area
-Kewaunee,2,3,2,0.465,5,Not Frontier,Metropolitan Statistical Area
-La Crosse,3,4,2,0.243,3,Not Frontier,Metropolitan Statistical Area
-Lafayette,8,6,7,0.575,6,Not Frontier,Not CBSA
-Langlade,6,6,6,0.474,5,Not Frontier,Not CBSA
-Lincoln,6,5,5,0.438,5,Not Frontier,Micropolitan Statistical Area
-Manitowoc,4,5,5,0.344,4,Not Frontier,Micropolitan Statistical Area
-Marathon,3,4,2,0.325,4,Not Frontier,Metropolitan Statistical Area
-Marinette,6,5,5,0.488,5,Not Frontier,Micropolitan Statistical Area
-Marquette,8,6,7,0.573,6,Not Frontier,Not CBSA
-Menominee,8,5,5,0.626,7,Frontier,Micropolitan Statistical Area
-Milwaukee,1,1,1,0.105,2,Not Frontier,Metropolitan Statistical Area
-Monroe,6,6,6,0.420,5,Not Frontier,Not CBSA
-Oconto,2,3,2,0.510,6,Not Frontier,Metropolitan Statistical Area
-Oneida,7,6,9,0.515,6,Not Frontier,Not CBSA
-Outagamie,3,4,2,0.252,3,Not Frontier,Metropolitan Statistical Area
-Ozaukee,1,2,1,0.288,3,Not Frontier,Metropolitan Statistical Area
-Pepin,8,6,4,0.584,6,Not Frontier,Not CBSA
-Pierce,1,2,1,0.435,5,Not Frontier,Metropolitan Statistical Area
-Polk,6,6,4,0.527,6,Not Frontier,Not CBSA
-Portage,4,5,5,0.356,4,Not Frontier,Micropolitan Statistical Area
-Price,9,6,12,0.620,7,Frontier,Not CBSA
-Racine,3,4,2,0.204,3,Not Frontier,Metropolitan Statistical Area
-Richland,6,6,6,0.513,6,Not Frontier,Not CBSA
-Rock,3,4,2,0.247,3,Not Frontier,Metropolitan Statistical Area
-Rusk,6,6,6,0.546,6,Frontier,Not CBSA
-Saint Croix,1,2,1,0.404,5,Not Frontier,Metropolitan Statistical Area
-Sauk,4,5,5,0.390,4,Not Frontier,Micropolitan Statistical Area
-Sawyer,7,6,12,0.597,6,Frontier,Not CBSA
-Shawano,6,5,5,0.472,5,Not Frontier,Micropolitan Statistical Area
-Sheboygan,3,4,2,0.274,3,Not Frontier,Metropolitan Statistical Area
-Taylor,6,6,6,0.528,6,Not Frontier,Not CBSA
-Trempealeau ,6,6,6,0.522,6,Not Frontier,Not CBSA
-Vernon,6,6,6,0.508,6,Not Frontier,Not CBSA
-Vilas,9,6,12,0.620,7,Not Frontier,Not CBSA
-Walworth,4,5,3,0.319,4,Not Frontier,Micropolitan Statistical Area
-Washburn,7,6,11,0.592,6,Frontier,Not CBSA
-Washington,1,2,1,0.301,4,Not Frontier,Metropolitan Statistical Area
-Waukesha,1,2,1,0.197,2,Not Frontier,Metropolitan Statistical Area
-Waupaca,6,6,6,0.429,5,Not Frontier,Not CBSA
-Waushara,6,6,6,0.522,6,Not Frontier,Not CBSA
-Winnebago,3,4,2,0.219,3,Not Frontier,Metropolitan Statistical Area
-Wood,4,5,5,0.357,4,Not Frontier,Micropolitan Statistical Area
+Adams,8,6,6,0.581,6,1,Not CBSA
+Ashland,7,6,11,0.549,6,5,Not CBSA
+Barron,6,6,6,0.474,5,1,Not CBSA
+Bayfield,8,6,6,0.656,7,5,Not CBSA
+Brown,2,3,2,0.209,3,1,Metropolitan Statistical Area
+Buffalo,8,6,6,0.579,6,1,Not CBSA
+Burnett,8,6,4,0.627,7,5,Not CBSA
+Calumet,3,4,2,0.318,4,1,Metropolitan Statistical Area
+Chippewa,3,4,2,0.382,4,1,Metropolitan Statistical Area
+Clark,6,6,6,0.529,6,1,Not CBSA
+Columbia,2,3,2,0.422,5,1,Metropolitan Statistical Area
+Crawford,7,6,9,0.491,5,1,Not CBSA
+Dane,2,3,2,0.192,2,1,Metropolitan Statistical Area
+Dodge,4,5,3,0.373,4,1,Micropolitan Statistical Area
+Door,6,6,6,0.481,5,1,Not CBSA
+Douglas,2,3,2,0.449,5,1,Metropolitan Statistical Area
+Dunn,6,5,3,0.434,5,1,Micropolitan Statistical Area
+Eau Claire,3,4,2,0.271,3,1,Metropolitan Statistical Area
+Florence,9,5,8,0.68,7,5,Micropolitan Statistical Area
+Fond du Lac,3,4,2,0.302,4,1,Metropolitan Statistical Area
+Forest,9,6,12,0.642,7,5,Not CBSA
+Grant,6,5,5,0.444,5,1,Micropolitan Statistical Area
+Green,2,3,2,0.428,5,1,Metropolitan Statistical Area
+Green Lake,6,6,6,0.482,5,1,Not CBSA
+Iowa,2,3,2,0.51,6,1,Metropolitan Statistical Area
+Iron,9,6,12,0.606,7,5,Not CBSA
+Jackson,6,6,6,0.5,6,1,Not CBSA
+Jefferson,4,5,3,0.333,4,1,Micropolitan Statistical Area
+Juneau,7,6,9,0.527,6,1,Not CBSA
+Kenosha,1,2,1,0.216,3,1,Metropolitan Statistical Area
+Kewaunee,2,3,2,0.465,5,1,Metropolitan Statistical Area
+La Crosse,3,4,2,0.243,3,1,Metropolitan Statistical Area
+Lafayette,8,6,7,0.575,6,1,Not CBSA
+Langlade,6,6,6,0.474,5,1,Not CBSA
+Lincoln,6,5,5,0.438,5,1,Micropolitan Statistical Area
+Manitowoc,4,5,5,0.344,4,1,Micropolitan Statistical Area
+Marathon,3,4,2,0.325,4,1,Metropolitan Statistical Area
+Marinette,6,5,5,0.488,5,1,Micropolitan Statistical Area
+Marquette,8,6,7,0.573,6,1,Not CBSA
+Menominee,8,5,5,0.626,7,5,Micropolitan Statistical Area
+Milwaukee,1,1,1,0.105,2,1,Metropolitan Statistical Area
+Monroe,6,6,6,0.42,5,1,Not CBSA
+Oconto,2,3,2,0.51,6,1,Metropolitan Statistical Area
+Oneida,7,6,9,0.515,6,1,Not CBSA
+Outagamie,3,4,2,0.252,3,1,Metropolitan Statistical Area
+Ozaukee,1,2,1,0.288,3,1,Metropolitan Statistical Area
+Pepin,8,6,4,0.584,6,1,Not CBSA
+Pierce,1,2,1,0.435,5,1,Metropolitan Statistical Area
+Polk,6,6,4,0.527,6,1,Not CBSA
+Portage,4,5,5,0.356,4,1,Micropolitan Statistical Area
+Price,9,6,12,0.62,7,5,Not CBSA
+Racine,3,4,2,0.204,3,1,Metropolitan Statistical Area
+Richland,6,6,6,0.513,6,1,Not CBSA
+Rock,3,4,2,0.247,3,1,Metropolitan Statistical Area
+Rusk,6,6,6,0.546,6,5,Not CBSA
+Saint Croix,1,2,1,0.404,5,1,Metropolitan Statistical Area
+Sauk,4,5,5,0.39,4,1,Micropolitan Statistical Area
+Sawyer,7,6,12,0.597,6,5,Not CBSA
+Shawano,6,5,5,0.472,5,1,Micropolitan Statistical Area
+Sheboygan,3,4,2,0.274,3,1,Metropolitan Statistical Area
+Taylor,6,6,6,0.528,6,1,Not CBSA
+Trempealeau,6,6,6,0.522,6,1,Not CBSA
+Vernon,6,6,6,0.508,6,1,Not CBSA
+Vilas,9,6,12,0.62,7,1,Not CBSA
+Walworth,4,5,3,0.319,4,1,Micropolitan Statistical Area
+Washburn,7,6,11,0.592,6,5,Not CBSA
+Washington,1,2,1,0.301,4,1,Metropolitan Statistical Area
+Waukesha,1,2,1,0.197,2,1,Metropolitan Statistical Area
+Waupaca,6,6,6,0.429,5,1,Not CBSA
+Waushara,6,6,6,0.522,6,1,Not CBSA
+Winnebago,3,4,2,0.219,3,1,Metropolitan Statistical Area
+Wood,4,5,5,0.357,4,1,Micropolitan Statistical Area
