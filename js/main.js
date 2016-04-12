@@ -1,13 +1,11 @@
 (function(){
-
 // variables for data join
-var attrArray = ["RUCC2013", "URCSC2013", "UIC2013", "IRR2010", "IRR2010Category", "NCFC2010", "CBSA2013"];//list of attributes
+var attrArray = ["Rural-Urban Continuum Codes", "Urban-Rural Classification Scheme", "Urban Influence Codes", "IRR2010", "IRR2010Category", "NCFC2010", "Core-Based Statistical Area"];//list of attributes
 // data that is expressed on the map
 var expressed = attrArray[0]; //initial attribute
-
 // dimensions of the chart frame
 var chartWidth = window.innerWidth * 0.4,
-    chartHeight = 500,
+    chartHeight = 400,
     leftPadding = 35,
     rightPadding = 5,
     topBottomPadding = 10,
@@ -116,7 +114,6 @@ function makeColorScale(data){
         "#006d2c"
     ];
 
-    console.log("makecolorscale"); //success
     //create color scale generator
     var colorScale = d3.scale.quantile()
         .range(colorClasses);
@@ -130,21 +127,29 @@ function makeColorScale(data){
     colorScale.domain(minmax);
 
     return colorScale;
-    console.log("colorscale") //fail
 };
-// express nulls as light grey
-function choropleth(props, colorScale) {
+//function to test for data value and return color
+function choropleth(props, colorScale){
+    //make sure attribute value is a number
     var val = parseFloat(props[expressed]);
-    // if the value doesn't exist, assign CCC, otherwise give it a color according to the color scale
-    if (isNaN(val)) {
-        return "#CCC";
-    } else {
+    //if attribute value exists, assign a color; otherwise assign gray
+    if (val && val != NaN){
         return colorScale(val);
-    };
+    } else {
+        return "#CCC";
+  };
 };
 
 // creates coordinated bar chart
 function setChart(csvData, colorScale) {
+
+    // // sets min and max of the data (depending on what attribute is expressed)
+    // var minmax = [
+    //     d3.min(csvData, function(d) {
+    //         return parseFloat(d[expressed]); }),
+    //     d3.max(csvData, function(d) {
+    //         return parseFloat(d[expressed]); })
+    // ];
 
     // creates a second svg element to hold the bar chart
     var chart = d3.select("body")
@@ -169,9 +174,22 @@ function setChart(csvData, colorScale) {
             return b[expressed]-a[expressed]
         })
         .attr("class", function(d){
-            return "bar " + d.name;
+            return "bar " + d.County;
         })
+
         .attr("width", chartInnerWidth / csvData.length - 1)
+        .attr("x", function(d, i){
+            return i * (chartInnerWidth / csvData.length) + leftPadding;
+        })
+        .attr("height", function(d, i){
+            return 480 - yScale(parseFloat(d[expressed]));
+        })
+        .attr("y", function(d, i){
+            return yScale(parseFloat(d[expressed])) + topBottomPadding;
+        })
+        .style("fill", function(d){
+            return choropleth(d, colorScale);
+        })
         .on("mouseover", highlight)
         .on("mouseout", dehighlight)
         .on("mousemove", moveLabel);
@@ -239,9 +257,9 @@ function changeAttribute(attribute, csvData){
     var colorScale = makeColorScale(csvData);
 
     //recolor enumeration units
-    var states = d3.selectAll(".states")
+    var counties = d3.selectAll(".counties")
         .transition()
-        .duration(1000)
+        .duration(900)
         .style("fill", function(d){
             return choropleth(d.properties, colorScale)
         });
@@ -326,7 +344,7 @@ function setLabel(props) {
         })
         .html(labelAttribute);
 
-    var stateName = infolabel.append("div")
+    var countyName = infolabel.append("div")
         .attr("class", "labelname")
         .html(props.name);
 };
