@@ -1,12 +1,12 @@
 //wrap it all in an anonymous function
 (function(){
 //list attributes in an array for data join / for the dropdown
-var attrArray = ["Rural-Urban Continuum Codes", "Urban-Rural Classification Scheme", "Urban Influence Codes", "Index of Relative Rurality", "National Center for Frontier Communities"];
+var attrArray = ["Rural-Urban Continuum Codes", "NCHS Urban-Rural Classification Scheme", "Urban Influence Codes", "Index of Relative Rurality", "Frontier Communities"];
 //set up initial attribute
 var expressed = attrArray[0];
 // dimensions of the bar graph = a function of window width
-var chartWidth = window.innerWidth * 0.4,
-    chartHeight = 400,
+var chartWidth = window.innerWidth * 0.35,
+    chartHeight = 300,
     leftPadding = 35,
     rightPadding = 5,
     topBottomPadding = 10,
@@ -14,12 +14,12 @@ var chartWidth = window.innerWidth * 0.4,
     chartInnerHeight = chartHeight - topBottomPadding * 2,
     translate = "translate(" + leftPadding + "," + topBottomPadding + ")";
 
-//yScale for chart
+//yScale for chart, give the axis a domain
 var yScale = d3.scale.linear()
-    .range([chartHeight - 20, 0])
-    .domain([0, 10]);
+    .range([chartHeight, 0])
+    .domain([0, 12]);
 
-//when window loads, call setMap()
+//when window loads, initiate map
 window.onload = setMap();
 
 //set up the choropleth
@@ -28,32 +28,32 @@ function setMap() {
     var width = window.innerWidth * 0.6,
         height = 800;
 
-    //set up map variable, an svg element
+    // map variable, an svg element with attributes styled in style.css
     var map = d3.select("body")
         .append("svg")
         .attr("class", "map")
         .attr("width", width)
         .attr("height", height);
 
-//set the projection for WI
+//set the projection for WI, equal area because choropeth
     var projection = d3.geo.albers()
-        .scale(8000)
+        .scale(7500)
         .center([0.00, 44.437778])
         .rotate ([90.130186, 0, 0])
         .parallels([42, 46])
         .translate([width / 2, height / 2]);
 
-        //
+        //path to draw the map
     var path = d3.geo.path()
         .projection(projection);
 
-        //
+        //load in the data
     d3_queue.queue()
         .defer(d3.csv, "data/County_Classifications.csv")
         .defer(d3.json, "data/WI_Counties.topojson")
         .await(callback);
 
-//set up callback function with 3 parameters within setMap() so it can use variables above
+//set up callback function with 3 
   function callback(error, csvData, wi){
     //translate WI TopoJSON using the topojson.feature() method
     var wiCounties = topojson.feature(wi, wi.objects.WI_Counties).features;
@@ -70,10 +70,11 @@ function setMap() {
     };
 };//end of setMap
 
+//function to join our data since we brought csv/topo in separately
 function joinData(wiCounties, csvData) {
     //loop through csv to assign attribute values to the counties
     for (var i=0; i<csvData.length; i++){
-        //variable for the current county
+        //variable for the current county in topo
         var csvCounty = csvData[i]; 
         //variable for the csv primary key
         var csvKey = csvCounty.NAME; 
@@ -98,7 +99,9 @@ function joinData(wiCounties, csvData) {
     return wiCounties;
 };
 
+//function to set the enumeration units in the map 
 function setEnumerationUnits(wiCounties, map, path, colorScale) {
+    //variable counties, styled in style.css
     var counties = map.selectAll(".counties")
         .data(wiCounties)
         .enter()
@@ -107,34 +110,39 @@ function setEnumerationUnits(wiCounties, map, path, colorScale) {
             return "counties " + d.properties.NAME;
         })
         .attr("d", path)
+        //fill the counties with the choropleth colorScale
         .style("fill", function(d){
             return choropleth(d.properties, colorScale);
         })
+        //when the mouse goes over an enumeration unit, call highlight function
         .on("mouseover", function(d){
             highlight(d.properties);
         })
+        //when the mouse leaves an emumeration unit, clal the dehighlight function
         .on("mouseout", function(d){
             dehighlight(d.properties);
         })
+        //when the mouse moves over enumeration units, call moveLabel function
         .on("mousemove", moveLabel);
 
+//set up a variable for the dehighlight function -- what the style will return to on mouseout
     var desc = counties.append("desc")
-        .text('{"stroke": "#000", "stroke-width": "2"}');
+        .text('{"stroke": "#faf0e6", "stroke-width": "0.5"}');
 
 };
 
 
-//create a colorbrewer scale for the
+//create a colorbrewer scale for the choropleth
 function makeColorScale(data){
     var colorClasses = [
-        "#edf8e9",
-        "#c7e9c0",
-        "#a1d99b",
-        "#41ab5d",
-        "#238b45"
+        "#d9f0a3",
+        "#addd8e",
+        "#78c679",
+        "#31a354",
+        "#006837"
     ];
 
-    //create color scale generator
+    //create color scale generator, use quantile breaks
     var colorScale = d3.scale.quantile()
         .range(colorClasses);
 
@@ -306,7 +314,7 @@ function updateChart(bars, n, colorScale) {
         })
 
         var chartTitle = d3.select(".chartTitle")
-        .text("Rurality in the " + '"' + expressed + '"' + " Classification System",'{"font-color": "white"}');
+        .text("Rurality in the " + '"' + expressed + '"' + " System",'{"font-color": "white"}');
 };
 
 //function to highlight enumeration units and bars
@@ -315,7 +323,7 @@ function highlight(props){
     var selected = d3.selectAll("." + props.NAME)
         .style({
             "stroke": "white",
-            "stroke-width": "3"
+            "stroke-width": "4"
         });
     setLabel(props);
 };

@@ -1,45 +1,35 @@
 body {
-    background-color: grey;
+    background-color: #8b8378;
 }
 
 .counties {
-    stroke: black;
-    stroke-width: 1px;
+    stroke: #faf0e6;
+    stroke-width: 0.5px;
 }
 
 .chart {
     position: absolute;
-    top: 150px;
-    left: 850px;
+    top: 370px;
+    left: 930px;
     float: right;
     margin: 60px 20px 0 0;
 }
 
-/*.header h1 {
-  position: middle;
-  font-family: 'Ubuntu', sans-serif;
-  font-size: 30px;
-  padding-top: 1px;
-  margin-top: 1px;
-  margin-bottom: 1px;  
-}*/
-
 .chartTitle {
     font-family: Candara;
-    font-color: white;
     font-size: 1em;
     font-weight: bold;
     width: 5em;
 }
 
 .chartBackground {
-    fill: white;
+    fill: #faf0e6;
 }
 
 .chartFrame {
     fill: none;
-    stroke: white;
-    stroke-width: 2px;
+    stroke: none;
+    stroke-width: 0px;
 }
 
 .axis path,
@@ -52,13 +42,14 @@ body {
 .axis text {
     font-family: Candara;
     font-size: 0.8em;
+    font-color: #faf0e6;
     fill: #ffffff;
 }
 
 .dropdown {
     position: absolute;
-    top: 150px;
-    left: 60px;
+    top: 120px;
+    left: 15px;
     z-index: 10;
     font-family: Candara;
     font-size: 1em;
@@ -66,18 +57,20 @@ body {
     padding: 2px;
     border: 1px solid #ffffff;
     box-shadow: 2px 2px 4px #000000;
+    background: #faf0e6;
 }
 
 .infolabel {
     position: absolute;
     height: 50px;
     min-width: 10px;
-    color: #fff;
-    background-color: #000;
-    border: solid thin #fff;
+    color: #faf0e6;
+    background-color: #8b8378;
+    border: none;
     padding: 5px 10px;
     top: 75px;
     font-family: Candara;
+    box-shadow: 2px 2px 4px #000000;
 }
 
 .infolabel h1 {
@@ -90,19 +83,19 @@ body {
 .map {
     position: absolute;
     top: -20px;
-    left: 100px ;
+    left: 150px ;
     border: none;
     margin: 100px 0 0 40px;
     background: none;
 }
 
 #title {
-    top: 15px;
-    left: 150px;
-    font-size: 4em;
+    top: 10px;
+    left: 170px;
+    font-size: 3.5em;
     font-style: bold;
     position: absolute;
-    color: white;
+    color: #faf0e6;
     border-width: 0px;
     border: none;
     text-align: center;
@@ -112,29 +105,45 @@ body {
 }
 
 #info {
-    top: 690px;
-    left: 1300px;
-    font-size: 1em;
+    top: 750px;
+    left: 1000px;
+    width: 300px;
+    font-size: .8em;
     position: absolute;
-    color: white;
+    color: #faf0e6;
     border-width: 0px;
     border: none;
-    text-align: center;
+    text-align: left;
     padding-top: 15px;
     padding-bottom: 1px;
     font-family: Candara;
 }
 
 #description {
-    top: 200px;
+    top: 235px;
     left: 10px;
-    width: 300px;
+    width: 500px;
     font-size: 1em;
     position: absolute;
-    color: white;
+    color: #faf0e6;
     border-width: 0px;
     border: none;
-    text-align: center;
+    text-align: left;
+    padding-top: 15px;
+    padding-bottom: 1px;
+    font-family: Candara;
+}
+
+#bigpicture {
+    top: 100px;
+    left: 950px;
+    width: 500px;
+    font-size: 1em;
+    position: absolute;
+    color: #faf0e6;
+    border-width: 0px;
+    border: none;
+    text-align: left;
     padding-top: 15px;
     padding-bottom: 1px;
     font-family: Candara;
