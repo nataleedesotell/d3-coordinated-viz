@@ -1,12 +1,11 @@
-//wrap in anonymous function
+//wrap it all in an anonymous function
 (function(){
-//list attributes in an array for data join
-var attrArray = ["Rural-Urban Continuum Codes", "Urban-Rural Classification Scheme", "Urban Influence Codes", "IRR2010", "Index of Relative Rurality", "NCFC2010", "Core-Based Statistical Area"];
-//initial attribute
+//list attributes in an array for data join / for the dropdown
+var attrArray = ["Rural-Urban Continuum Codes", "Urban-Rural Classification Scheme", "Urban Influence Codes", "Index of Relative Rurality", "National Center for Frontier Communities"];
+//set up initial attribute
 var expressed = attrArray[0];
 // dimensions of the bar graph = a function of window width
 var chartWidth = window.innerWidth * 0.4,
-
     chartHeight = 400,
     leftPadding = 35,
     rightPadding = 5,
@@ -15,30 +14,40 @@ var chartWidth = window.innerWidth * 0.4,
     chartInnerHeight = chartHeight - topBottomPadding * 2,
     translate = "translate(" + leftPadding + "," + topBottomPadding + ")";
 
+//yScale for chart
 var yScale = d3.scale.linear()
     .range([chartHeight - 20, 0])
     .domain([0, 10]);
 
+//when window loads, call setMap()
 window.onload = setMap();
 
+//set up the choropleth
 function setMap() {
+    //width is a function of window size
     var width = window.innerWidth * 0.4,
         height = 800;
 
+    //set up map variable, an svg element
     var map = d3.select("body")
         .append("svg")
         .attr("class", "map")
         .attr("width", width)
         .attr("height", height);
 
+//set the projection for WI
     var projection = d3.geo.albers()
-        .scale(7000)
+        .scale(8000)
         .center([0.00, 44.437778])
         .rotate ([90.130186, 0, 0])
         .parallels([42, 46])
         .translate([width / 2, height / 2]);
+
+        //
     var path = d3.geo.path()
         .projection(projection);
+
+        //
     d3_queue.queue()
         .defer(d3.csv, "data/County_Classifications.csv")
         .defer(d3.json, "data/WI_Counties.topojson")
@@ -49,42 +58,53 @@ function setMap() {
     //translate WI TopoJSON using the topojson.feature() method
     var wiCounties = topojson.feature(wi, wi.objects.WI_Counties).features;
     wiCounties = joinData(wiCounties, csvData);
+
     //add color scale
     var colorScale = makeColorScale(csvData);
     //add enumeration units to the map
     setEnumerationUnits(wiCounties, map, path, colorScale);
+    //add the chart to the map
     setChart(csvData, colorScale);
+    //add the dropdown
     createDropdown(csvData);
     };
-};
+};//end of setMap
+
 function joinData(wiCounties, csvData) {
-    //loop through csv to assign csv attribute values to the counties
+    //loop through csv to assign attribute values to the counties
     for (var i=0; i<csvData.length; i++){
-        var csvCounty = csvData[i]; //the current county
-        var csvKey = csvCounty.County; //the CSV primary key
+        //variable for the current county
+        var csvCounty = csvData[i]; 
+        //variable for the csv primary key
+        var csvKey = csvCounty.NAME; 
         //loop through geojson regions to find correct region
         for (var a=0; a<wiCounties.length; a++){
-            var geojsonProps = wiCounties[a].properties; //the current region geojson properties
-            var geojsonKey = geojsonProps.NAME; //the geojson primary key
-            //where primary keys match, transfer csv data to geojson properties object
+            //the current county geojson properties
+            var geojsonProps = wiCounties[a].properties;
+            //the geojson primary key
+            var geojsonKey = geojsonProps.NAME;
+            //if primary keys match, transfer csv data to geojson properties object
             if (geojsonKey == csvKey){
                 //assign all attributes and values
                 attrArray.forEach(function(attr){
-                    var val = parseFloat(csvCounty[attr]); //get csv attribute value
-                    geojsonProps[attr] = val; //assign attribute and value to geojson properties
+                    //get csv attribute value, take it in as a string and return as a float
+                    var val = parseFloat(csvCounty[attr]);
+                    //assign the attribute and its value to geojson properties
+                    geojsonProps[attr] = val; 
                 });
             };
         };
     };
     return wiCounties;
 };
+
 function setEnumerationUnits(wiCounties, map, path, colorScale) {
     var counties = map.selectAll(".counties")
         .data(wiCounties)
         .enter()
         .append("path")
         .attr("class", function(d) {
-            return "counties " + d.properties.County;
+            return "counties " + d.properties.NAME;
         })
         .attr("d", path)
         .style("fill", function(d){
@@ -97,9 +117,9 @@ function setEnumerationUnits(wiCounties, map, path, colorScale) {
             dehighlight(d.properties);
         })
         .on("mousemove", moveLabel);
-    //below Example 2.2 line 16...add style descriptor to each path
+
     var desc = counties.append("desc")
-        .text('{"stroke": "#000", "stroke-width": "0.5px"}');
+        .text('{"stroke": "#000", "stroke-width": "2"}');
 
 };
 
@@ -107,11 +127,11 @@ function setEnumerationUnits(wiCounties, map, path, colorScale) {
 //create a colorbrewer scale for the
 function makeColorScale(data){
     var colorClasses = [
-        "#edf8fb",
-        "#b2e2e2",
-        "#66c2a4",
-        "#2ca25f",
-        "#006d2c"
+        "#edf8e9",
+        "#c7e9c0",
+        "#a1d99b",
+        "#41ab5d",
+        "#238b45"
     ];
 
     //create color scale generator
@@ -165,7 +185,7 @@ function setChart(csvData, colorScale) {
             return b[expressed]-a[expressed]
         })
         .attr("class", function(d){
-            return "bar " + d.County;
+            return "bar " + d.NAME;
         })
 
         .attr("width", chartInnerWidth / csvData.length - 1)
@@ -174,7 +194,7 @@ function setChart(csvData, colorScale) {
             return i * (chartInnerWidth / csvData.length) + leftPadding;
         })
         .attr("height", function(d, i){
-            return 480 - yScale(parseFloat(d[expressed]));
+            return 460 - yScale(parseFloat(d[expressed]));
         })
         .attr("y", function(d, i){
             return yScale(parseFloat(d[expressed])) + topBottomPadding;
@@ -286,7 +306,7 @@ function updateChart(bars, n, colorScale) {
         })
 
         var chartTitle = d3.select(".chartTitle")
-        .text("Rurality in the " + expressed + " Classification System");
+        .text("Rurality in the " + expressed + " Classification System",'{"font-color": "white"}');
 };
 
 //function to highlight enumeration units and bars
@@ -294,8 +314,8 @@ function highlight(props){
     //change stroke
     var selected = d3.selectAll("." + props.NAME)
         .style({
-            "stroke": "blue",
-            "stroke-width": "2"
+            "stroke": "white",
+            "stroke-width": "3"
         });
     setLabel(props);
 };
@@ -308,9 +328,6 @@ function dehighlight(props) {
             },
             "stroke-width": function(){
                 return getStyle(this, "stroke-width")
-            },
-            "fill-opacity": function(){
-                return getStyle(this, "fill-opacity")
             }
         });
 
@@ -337,7 +354,7 @@ function setLabel(props) {
         .append("div")
         .attr({
             "class": "infolabel",
-            "id": props.name + "_label"
+            "id": props.NAME + "_label"
         })
         .html(labelAttribute);
 
