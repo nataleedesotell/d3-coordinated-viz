@@ -25,7 +25,7 @@ window.onload = setMap();
 //set up the choropleth
 function setMap() {
     //width is a function of window size
-    var width = window.innerWidth * 0.4,
+    var width = window.innerWidth * 0.6,
         height = 800;
 
     //set up map variable, an svg element
@@ -218,7 +218,7 @@ function setChart(csvData, colorScale) {
         .attr("text-anchor", "middle")
 
     //creates vertical axis generator
-    var yAxis = d3.svg.axis()
+    var yAxis = d3.svg.axis()  
         .scale(yScale)
         .orient("left");
 
@@ -306,7 +306,7 @@ function updateChart(bars, n, colorScale) {
         })
 
         var chartTitle = d3.select(".chartTitle")
-        .text("Rurality in the " + expressed + " Classification System",'{"font-color": "white"}');
+        .text("Rurality in the " + '"' + expressed + '"' + " Classification System",'{"font-color": "white"}');
 };
 
 //function to highlight enumeration units and bars
