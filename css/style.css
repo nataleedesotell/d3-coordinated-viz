@@ -4,7 +4,7 @@
 }
 
 .chart {
-    background-color: none;
+    background-color: white;
     border: none;
     float: right;
     margin: 10px 20px 0 0;
@@ -18,11 +18,11 @@
 
 .chart {
     float: right;
-    margin: 7px 20px 0 0;
+    margin: 60px 20px 0 0;
 }
 
 .chartTitle {
-    font-family: sans-serif;
+    font-family: Candara;
     font-size: 1.1em;
     font-weight: bold;
     width: 5em;
@@ -30,7 +30,7 @@
 }
 
 .chartBackground {
-    fill: rgba(128,128,128,.2);
+    fill: white;
 }
 
 .chartFrame {
@@ -77,12 +77,5 @@ option {
     background-color: #000;
     border: solid thin #fff;
     padding: 5px 10px;
-    /*top: -75px;*/
-}
-
-.infolabel h1 {
-    margin: 0 20px 0 0;
-    padding: 0;
-    display: inline-block;
-    line-height: 1em;
+    top: -75px;
 }

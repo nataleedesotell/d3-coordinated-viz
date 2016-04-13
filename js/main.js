@@ -1,10 +1,12 @@
+//wrap in anonymous function
 (function(){
-// variables for data join
-var attrArray = ["Rural-Urban Continuum Codes", "Urban-Rural Classification Scheme", "Urban Influence Codes", "IRR2010", "IRR2010Category", "NCFC2010", "Core-Based Statistical Area"];//list of attributes
-// data that is expressed on the map
-var expressed = attrArray[0]; //initial attribute
-// dimensions of the chart frame
+//list attributes in an array for data join
+var attrArray = ["Rural-Urban Continuum Codes", "Urban-Rural Classification Scheme", "Urban Influence Codes", "IRR2010", "Index of Relative Rurality", "NCFC2010", "Core-Based Statistical Area"];
+//initial attribute
+var expressed = attrArray[0];
+// dimensions of the bar graph = a function of window width
 var chartWidth = window.innerWidth * 0.4,
+
     chartHeight = 400,
     leftPadding = 35,
     rightPadding = 5,
@@ -35,10 +37,8 @@ function setMap() {
         .rotate ([90.130186, 0, 0])
         .parallels([42, 46])
         .translate([width / 2, height / 2]);
-
     var path = d3.geo.path()
         .projection(projection);
-
     d3_queue.queue()
         .defer(d3.csv, "data/County_Classifications.csv")
         .defer(d3.json, "data/WI_Counties.topojson")
@@ -55,10 +55,8 @@ function setMap() {
     setEnumerationUnits(wiCounties, map, path, colorScale);
     setChart(csvData, colorScale);
     createDropdown(csvData);
-
     };
 };
-
 function joinData(wiCounties, csvData) {
     //loop through csv to assign csv attribute values to the counties
     for (var i=0; i<csvData.length; i++){
@@ -80,14 +78,13 @@ function joinData(wiCounties, csvData) {
     };
     return wiCounties;
 };
-
 function setEnumerationUnits(wiCounties, map, path, colorScale) {
     var counties = map.selectAll(".counties")
         .data(wiCounties)
         .enter()
         .append("path")
         .attr("class", function(d) {
-            return "counties " + d.properties.name;
+            return "counties " + d.properties.County;
         })
         .attr("d", path)
         .style("fill", function(d){
@@ -100,10 +97,13 @@ function setEnumerationUnits(wiCounties, map, path, colorScale) {
             dehighlight(d.properties);
         })
         .on("mousemove", moveLabel);
-
+    //below Example 2.2 line 16...add style descriptor to each path
     var desc = counties.append("desc")
-        .text('{"stroke": "#000", "stroke-width": "0.25px"}');
+        .text('{"stroke": "#000", "stroke-width": "0.5px"}');
+
 };
+
+
 //create a colorbrewer scale for the
 function makeColorScale(data){
     var colorClasses = [
@@ -139,17 +139,8 @@ function choropleth(props, colorScale){
         return "#CCC";
   };
 };
-
 // creates coordinated bar chart
 function setChart(csvData, colorScale) {
-
-    // // sets min and max of the data (depending on what attribute is expressed)
-    // var minmax = [
-    //     d3.min(csvData, function(d) {
-    //         return parseFloat(d[expressed]); }),
-    //     d3.max(csvData, function(d) {
-    //         return parseFloat(d[expressed]); })
-    // ];
 
     // creates a second svg element to hold the bar chart
     var chart = d3.select("body")
@@ -178,6 +169,7 @@ function setChart(csvData, colorScale) {
         })
 
         .attr("width", chartInnerWidth / csvData.length - 1)
+
         .attr("x", function(d, i){
             return i * (chartInnerWidth / csvData.length) + leftPadding;
         })
@@ -194,12 +186,13 @@ function setChart(csvData, colorScale) {
         .on("mouseout", dehighlight)
         .on("mousemove", moveLabel);
 
+    //below Example 2.2 line 31...add style descriptor to each rect
     var desc = bars.append("desc")
         .text('{"stroke": "none", "stroke-width": "0px"}');
 
     //creates a text element for the chart title
     var chartTitle = chart.append("text")
-        .attr("x", 250)
+        .attr("x", 300)
         .attr("y", 30)
         .attr("class", "chartTitle")
         .attr("text-anchor", "middle")
@@ -273,7 +266,7 @@ function changeAttribute(attribute, csvData){
         .delay(function(d, i) {
             return i * 20
         })
-        .duration(500);
+        .duration(450);
 
     updateChart(bars, csvData.length, colorScale);
 };
@@ -293,11 +286,13 @@ function updateChart(bars, n, colorScale) {
         })
 
         var chartTitle = d3.select(".chartTitle")
-        .text("Rurality in the " + expressed + "Classification System");
+        .text("Rurality in the " + expressed + " Classification System");
 };
 
-function highlight(props) {
-    var selected = d3.selectAll("." + props.name)
+//function to highlight enumeration units and bars
+function highlight(props){
+    //change stroke
+    var selected = d3.selectAll("." + props.NAME)
         .style({
             "stroke": "blue",
             "stroke-width": "2"
@@ -306,13 +301,16 @@ function highlight(props) {
 };
 
 function dehighlight(props) {
-    var selected = d3.selectAll("." + props.name)
+    var selected = d3.selectAll("." + props.NAME)
         .style({
             "stroke": function(){
                 return getStyle(this, "stroke")
             },
             "stroke-width": function(){
                 return getStyle(this, "stroke-width")
+            },
+            "fill-opacity": function(){
+                return getStyle(this, "fill-opacity")
             }
         });
 
@@ -324,10 +322,9 @@ function dehighlight(props) {
         var styleObject = JSON.parse(styleText);
 
         return styleObject[styleName];
-
-        d3.select(".infolabel")
-              .remove();
     };
+    d3.select(".infolabel")
+        .remove();
 };
 
 function setLabel(props) {
@@ -346,7 +343,7 @@ function setLabel(props) {
 
     var countyName = infolabel.append("div")
         .attr("class", "labelname")
-        .html(props.name);
+        .html(props.NAME);
 };
 
 function moveLabel(){
