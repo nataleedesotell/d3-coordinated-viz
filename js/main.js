@@ -142,7 +142,7 @@ function makeColorScale(data){
         "#006837"
     ];
 
-    //create color scale generator, use quantile breaks
+    //create color scale generator,
     var colorScale = d3.scale.quantile()
         .range(colorClasses);
 
@@ -255,13 +255,13 @@ function createDropdown(csvData){
             changeAttribute(this.value, csvData)
         });
 
-    //add initial option
+    //add initial option for the dropdown
     var titleOption = dropdown.append("option")
         .attr("class", "titleOption")
         .attr("disabled", "true")
         .text("Select Classification");
 
-    //add attribute name options
+    //add attribute name options using attrArray
     var attrOptions = dropdown.selectAll("attrOptions")
         .data(attrArray)
         .enter()
@@ -280,6 +280,7 @@ function changeAttribute(attribute, csvData){
     //recolor enumeration units
     var counties = d3.selectAll(".counties")
         .transition()
+        //almost a second of delay for smooth loading of the counties when changing attribute
         .duration(900)
         .style("fill", function(d){
             return choropleth(d.properties, colorScale)
@@ -294,11 +295,12 @@ function changeAttribute(attribute, csvData){
         .delay(function(d, i) {
             return i * 20
         })
+        //450 millisecond delay for smooth loading
         .duration(450);
 
     updateChart(bars, csvData.length, colorScale);
 };
-
+//function to update the chart as the attribute changes
 function updateChart(bars, n, colorScale) {
     bars.attr("x", function(d, i){
             return i * (chartInnerWidth / n) + leftPadding;
@@ -317,9 +319,9 @@ function updateChart(bars, n, colorScale) {
         .text("Rurality in the " + '"' + expressed + '"' + " System",'{"font-color": "white"}');
 };
 
-//function to highlight enumeration units and bars
+//function to highlight enumeration units and bars on mouseover
 function highlight(props){
-    //change stroke
+    //change stroke on mouseover
     var selected = d3.selectAll("." + props.NAME)
         .style({
             "stroke": "white",
@@ -338,12 +340,12 @@ function dehighlight(props) {
                 return getStyle(this, "stroke-width")
             }
         });
-
+//grab the style in "desc" to restyle the county after mouseout
     function getStyle(element, styleName){
         var styleText = d3.select(element)
             .select("desc")
             .text();
-
+//set up variable styleObject to parse as string as JSON
         var styleObject = JSON.parse(styleText);
 
         return styleObject[styleName];
@@ -361,7 +363,9 @@ function setLabel(props) {
     var infolabel = d3.select("body")
         .append("div")
         .attr({
+            //set up class named infolabel to edit style
             "class": "infolabel",
+            //use the attribute NAME to label the county
             "id": props.NAME + "_label"
         })
         .html(labelAttribute);
@@ -370,7 +374,7 @@ function setLabel(props) {
         .attr("class", "labelname")
         .html(props.NAME);
 };
-
+//set up function for label placement as mouse moves
 function moveLabel(){
     //get width of label
     var labelWidth = d3.select(".infolabel")
@@ -378,11 +382,11 @@ function moveLabel(){
         .getBoundingClientRect()
         .width;
 
-    //use coordinates of mousemove event to set label coordinates
+    //use coordinates of mousemove event to give the label its coordinates
     var x1 = d3.event.clientX + 10,
         y1 = d3.event.clientY - 75,
-        x2 = d3.event.clientX - labelWidth - 10,
-        y2 = d3.event.clientY + 25;
+        x2 = d3.event.clientX - labelWidth - 15,
+        y2 = d3.event.clientY + 20;
 
     //horizontal label coordinate, testing for overflow
     var x = d3.event.clientX > window.innerWidth - labelWidth - 20 ? x2 : x1;
